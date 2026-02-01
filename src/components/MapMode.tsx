@@ -1,6 +1,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
 import { EquipmentBox, ExclusionZone } from '../types';
 import { playScanSound, playBoxDropSound } from '../utils/sound';
 
