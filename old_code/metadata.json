@@ -1,0 +1,7 @@
+{
+  "name": "제로부터시작하는자전거여행",
+  "description": "A fun Gacha-style application to randomly select Korean food ingredients. Includes a comprehensive default library, custom ingredient support, and AI-powered recipe suggestions based on your draw.",
+  "requestFramePermissions": [
+    "geolocation"
+  ]
+}

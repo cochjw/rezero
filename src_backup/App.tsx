@@ -1,7 +1,8 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
-import './index.css'; // 디자인을 위해 반드시 필요함
+import './index.css'; 
 import { DEFAULT_INGREDIENTS, DEFAULT_EQUIPMENT, INITIAL_CATEGORIES, EQUIPMENT_CATEGORIES } from './constants';
-import { Ingredient, StoredIngredient, LogEntry, GachaSelection, EquipmentBox, ExclusionZone } from './types';
+// ↓ 'type'이라는 단어를 추가해서 컴퓨터의 잔소리를 멈추게 합니다.
+import type { Ingredient, StoredIngredient, LogEntry, GachaSelection, EquipmentBox, ExclusionZone } from './types';
 import GachaMachine from './components/GachaMachine';
 import IngredientManager from './components/IngredientManager';
 import Warehouse from './components/Warehouse';
@@ -153,7 +154,7 @@ function App() {
         addLog('system', '📍 위치 정보가 갱신되었습니다.');
       },
       (error) => {
-        console.warn("GPS refresh failed:", error.message);
+        console.warn("GPS refresh failed:", error);
         addLog('system', '⚠️ 위치를 가져올 수 없습니다.');
       },
       { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
@@ -204,7 +205,7 @@ function App() {
              lastPosRef.current = { lat: latitude, lon: longitude };
         }
       },
-      (error) => { console.warn("Tracking error:", error.message); },
+      (error) => { console.warn("Tracking error:", error); },
       { enableHighAccuracy: true, timeout: 10000, maximumAge: 5000 }
     );
   };
@@ -375,7 +376,7 @@ function App() {
             onAddEquip={(n, c, t) => setEquipment([...equipment, {id:`e-${Date.now()}`,name:n,category:c,tier:t,isCustom:true,isActive:true}])}
             onRemoveEquip={id => setEquipment(equipment.filter(i => i.id !== id))}
             onUpdateEquip={(id,u) => setEquipment(equipment.map(i => i.id===id?{...i,...u}:i))}
-            onAddEquipCategory={() => {}} onRemoveEquipCategory={() => {}}
+            onAddEquipCategory={() => {}} onRemoveEquipCategory={_n => {}}
             onNavigateToGacha={() => setActiveTab('gacha')} onOpenSaveModal={() => {}}
           />
         )}
