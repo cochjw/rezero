@@ -105,6 +105,13 @@ const MapMode: React.FC<MapModeProps> = ({
   coinBalance,
   setCoinBalance
 }) => {
+  useEffect(() => {
+    if (currentPosition) {
+      console.log("MapMode.tsx (prop): currentPosition received:", currentPosition);
+    } else {
+      console.log("MapMode.tsx (prop): currentPosition is null.");
+    }
+  }, [currentPosition]);
   const [loading, setLoading] = useState(false);
   const [loadingText, setLoadingText] = useState(""); 
   const [scanDirection, setScanDirection] = useState('ALL');
@@ -164,7 +171,10 @@ const MapMode: React.FC<MapModeProps> = ({
     let isMounted = true;
     if (currentPosition) {
         getCityFromCoords(currentPosition.lat, currentPosition.lng).then(name => {
-            if (isMounted && name) setCurrentCityName(name);
+            if (isMounted && name) {
+              setCurrentCityName(name);
+              console.log("MapMode.tsx: Resolved city name from currentPosition:", name);
+            }
         });
     }
     return () => { isMounted = false; };
@@ -176,9 +186,11 @@ const MapMode: React.FC<MapModeProps> = ({
       const { lat, lng } = latlng;
       setIsResolvingAddress(true);
       try {
+          console.log("MapMode.tsx: Attempting to resolve address for manual jammer placement at", { lat, lng });
           const namePromise = getCityFromCoords(lat, lng);
           const fallbackName = `좌표(${lat.toFixed(3)}, ${lng.toFixed(3)})`;
           const name = await Promise.race([namePromise, new Promise<string>((resolve) => setTimeout(() => resolve(fallbackName), 2500))]) || fallbackName;
+          console.log("MapMode.tsx: Resolved name for manual jammer:", name);
           setPendingJammer({ lat, lng, name });
       } catch (err) {
           console.error("Manual placement error:", err);
@@ -194,6 +206,7 @@ const MapMode: React.FC<MapModeProps> = ({
       setExclusionZones(prev => [...prev, newZone]);
       setPendingJammer(null);
       setIsJammerMode(false); 
+      console.log("MapMode.tsx: Jammer placed:", newZone);
   };
   
   // All other handlers like handleSearch, handleAddManualZone, etc. are assumed to be here.
@@ -309,6 +322,7 @@ const MapMode: React.FC<MapModeProps> = ({
 
                 if (!isRestricted) {
                     const snappedPoint = await snapToCivilizationOSM(tempLat, tempLng);
+                    console.log("MapMode.tsx: snappedPoint result:", snappedPoint); // Log snappedPoint
                     if (snappedPoint) {
                         newLat = snappedPoint.lat;
                         newLng = snappedPoint.lng;
@@ -318,6 +332,7 @@ const MapMode: React.FC<MapModeProps> = ({
             }
 
             if (!foundValidPoint) {
+                console.log("MapMode.tsx: No valid point found after max attempts.");
                 setLoadingText("⚠️ 신호 소실: 착륙 좌표 확보 실패");
                 await new Promise(r => setTimeout(r, 1000));
                 setLoading(false);
@@ -326,6 +341,7 @@ const MapMode: React.FC<MapModeProps> = ({
             }
 
             const city = await getCityFromCoords(newLat, newLng);
+            console.log("MapMode.tsx: City from new box location:", city); // Log city for new box
 
             const newBox: EquipmentBox = {
                 id: `box-${Date.now()}`,
@@ -338,6 +354,7 @@ const MapMode: React.FC<MapModeProps> = ({
             
             playBoxDropSound();
             onSpawnBox(newBox);
+            console.log("MapMode.tsx: Spawned new box:", newBox);
         } catch (e) {
             console.error(e);
             alert("오류가 발생했습니다.");
@@ -365,8 +382,8 @@ const MapMode: React.FC<MapModeProps> = ({
         <ChangeView center={initialCenter} zoom={14} />
         {/* Changed to OpenStreetMap to debug potential tile server issues */}
         <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
-          url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
         <MapEvents onMapClick={handleMapClick} isJammerMode={isJammerMode} />
         

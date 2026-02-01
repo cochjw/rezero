@@ -126,7 +126,10 @@ function App() {
 
   useEffect(() => {
     if (currentPosition) {
+      console.log("App.tsx: currentPosition updated:", currentPosition);
       localStorage.setItem('sikjaeryo_last_pos', JSON.stringify(currentPosition));
+    } else {
+      console.log("App.tsx: currentPosition is null.");
     }
   }, [currentPosition]);
 
