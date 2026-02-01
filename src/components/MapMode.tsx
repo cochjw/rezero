@@ -346,16 +346,17 @@ const MapMode: React.FC<MapModeProps> = ({
         center={initialCenter}
         zoom={14}
         scrollWheelZoom={true}
-        className="flex-grow"
+        className="flex-grow h-full"
         maxBounds={SOUTH_KOREA_BOUNDS}
         maxBoundsViscosity={1.0}
         minZoom={7}
         zoomControl={false}
       >
         <ChangeView center={initialCenter} zoom={14} />
+        {/* Changed to OpenStreetMap to debug potential tile server issues */}
         <TileLayer
-          attribution='&copy; CARTO'
-          url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
         <MapEvents onMapClick={handleMapClick} isJammerMode={isJammerMode} />
         
