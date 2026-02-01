@@ -1073,7 +1073,7 @@ const MapMode: React.FC<MapModeProps> = ({
   };
 
   return (
-    <div className="flex flex-col w-full h-full relative overflow-hidden bg-gray-100" style={{ minHeight: '100vh' }}>
+    <div className="flex flex-col w-full h-full relative bg-gray-100">
       
       <div 
         ref={mapContainer} 
