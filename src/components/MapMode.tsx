@@ -1082,7 +1082,7 @@ const MapMode: React.FC<MapModeProps> = ({
       
       <div 
         ref={mapContainer} 
-        className="absolute inset-0 z-0 bg-gray-200"
+        className="flex-grow bg-gray-200"
       ></div>
 
       <div className="absolute top-0 left-0 right-0 p-4 pointer-events-none z-10">
