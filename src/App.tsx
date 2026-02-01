@@ -308,7 +308,7 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-brand-50 font-sans text-gray-800 flex flex-col max-w-md mx-auto shadow-2xl relative">
+    <div className="min-h-[100dvh] bg-brand-50 font-sans text-gray-800 flex flex-col max-w-md mx-auto shadow-2xl relative overflow-y-auto">
       <header className="p-4 flex justify-between items-center bg-white/90 backdrop-blur-md sticky top-0 z-30 border-b border-gray-100">
         <h1 className="text-xl font-black text-brand-600 tracking-tight flex items-center gap-2">🍎 식재료 가챠</h1>
         <div className="flex flex-col items-end">
@@ -318,7 +318,7 @@ function App() {
         </div>
       </header>
 
-      <main className="flex-1 flex flex-col relative overflow-hidden">
+      <main className="flex-1 flex flex-col relative pb-24">
         {activeTab === 'gacha' && (
           <GachaMachine 
             onRoll={handleRollMachine} onStopRoll={handleStopMachine}
@@ -381,7 +381,7 @@ function App() {
         )}
       </main>
 
-      <nav className="bg-white border-t border-gray-100 p-2 flex justify-around z-30 pb-safe">
+      <nav className="bg-white border-t border-gray-100 p-2 flex justify-around z-30 pb-safe fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-md">
         <button onClick={() => setActiveTab('gacha')} className={`flex flex-col items-center p-2 rounded-xl flex-1 ${activeTab==='gacha'?'text-brand-600 bg-brand-50':'text-gray-400'}`}>
           <span className="text-2xl mb-0.5">🎰</span><span className="text-[10px] font-bold">뽑기</span>
         </button>
