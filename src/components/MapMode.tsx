@@ -304,6 +304,7 @@ const MapMode: React.FC<MapModeProps> = ({
   }, [activeBox, currentPosition]);
 
   useEffect(() => {
+    let resizeObserver: ResizeObserver | null = null;
     if (mapContainer.current && !mapInstance.current) {
         const initialLat = currentPosition ? currentPosition.lat : 37.5665;
         const initialLng = currentPosition ? currentPosition.lng : 126.9780;
@@ -334,12 +335,16 @@ const MapMode: React.FC<MapModeProps> = ({
         
         L.control.zoom({ position: 'topright' }).addTo(map);
 
-        setTimeout(() => {
-            map.invalidateSize();
-        }, 500);
+        resizeObserver = new ResizeObserver(() => {
+          map.invalidateSize();
+        });
+        resizeObserver.observe(mapContainer.current);
     }
 
     return () => {
+        if (resizeObserver && mapContainer.current) {
+          resizeObserver.unobserve(mapContainer.current);
+        }
         if (mapInstance.current) {
             mapInstance.current.remove();
             mapInstance.current = null;
