@@ -308,9 +308,9 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-brand-50 font-sans text-gray-800 flex flex-col max-w-md mx-auto shadow-2xl overflow-hidden relative">
+    <div className="min-h-screen bg-brand-50 font-sans text-gray-800 flex flex-col max-w-md mx-auto shadow-2xl relative">
       <header className="p-4 flex justify-between items-center bg-white/90 backdrop-blur-md sticky top-0 z-30 border-b border-gray-100">
-        <h1 className="text-xl font-black text-brand-600 tracking-tight flex items-center gap-2 font-cute">🍎 식재료 가챠</h1>
+        <h1 className="text-xl font-black text-brand-600 tracking-tight flex items-center gap-2">🍎 식재료 가챠</h1>
         <div className="flex flex-col items-end">
           <div className="text-[10px] font-bold px-2 py-0.5 bg-brand-100 text-brand-700 rounded-lg shadow-sm">
             📍 {currentCity || "위치 확인 중..."}
