@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
-import { MapContainer, TileLayer, Marker, Circle, Polygon, useMap, useMapEvents, GeoJSON } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Circle, useMap, useMapEvents, GeoJSON } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { EquipmentBox, ExclusionZone } from '../types';
@@ -59,7 +59,11 @@ interface MapModeProps {
 }
 
 // Helper component to handle map events
-const MapEvents = ({ onMapClick, isJammerMode }) => {
+interface MapEventsProps {
+  onMapClick: (latlng: L.LatLng) => void;
+  isJammerMode: boolean;
+}
+const MapEvents: React.FC<MapEventsProps> = ({ onMapClick, isJammerMode }) => {
   const map = useMap();
 
   useEffect(() => {
@@ -77,11 +81,16 @@ const MapEvents = ({ onMapClick, isJammerMode }) => {
 };
 
 // Helper component to recenter the map view
-const ChangeView = ({ center, zoom }) => {
+interface ChangeViewProps {
+  center: L.LatLngExpression;
+  zoom: number;
+}
+const ChangeView: React.FC<ChangeViewProps> = ({ center, zoom }) => {
   const map = useMap();
   map.setView(center, zoom);
   return null;
 };
+
 
 const MapMode: React.FC<MapModeProps> = ({ 
   currentPosition, 
